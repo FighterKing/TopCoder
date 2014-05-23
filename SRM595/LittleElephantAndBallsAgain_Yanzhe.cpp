@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 using namespace std;
 
 class LittleElephantAndBallsAgain {
@@ -10,12 +11,39 @@ private:
             ret = ret && (i == s[0]);
         return ret;
     }
+    vector<vector<int> > memo;
+    string s;
+
+    int helper(int begin, int end) {
+        if (memo[begin][end] != -1) return memo[begin][end];
+
+        if (same(s.substr(begin, (end - begin + 1))))
+            memo[begin][end] = 0;
+        else {
+            int head = helper(begin + 1, end) + 1;
+            int tail = helper(begin, end - 1) + 1;
+
+            memo[begin][end] = (head < tail) ? head : tail;
+        }
+
+        return memo[begin][end];
+    }
+
 public:
     int getNumber(string S) {
-        if (same(S)) return 0;
-        int head = getNumber(S.substr(1)) + 1;
-        int tail = getNumber(S.substr(0, S.length()-1)) + 1;
-        return (head < tail) ? head : tail;
+        int N = S.length();
+
+        memo.resize(N);
+        for (int i = 0; i < N; i++)
+            memo[i].resize(N);
+
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+                memo[i][j] = -1;
+
+        s = S;
+
+        return helper(0, N - 1);
     }
 };
 
