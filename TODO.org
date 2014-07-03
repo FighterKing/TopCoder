@@ -1,8 +1,8 @@
 * TODO
 ** Chen
-1. SRM623
+1. SRM590
 ** Lv
 * Plan
 ** 1 per week at least
 * Record
-2014年7月10日 done
+2014年7月24日 done
