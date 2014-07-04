@@ -1,8 +1,9 @@
 * TODO
 ** Chen
 1. SRM590
+2. SRM584
 ** Lv
 * Plan
 ** 1 per week at least
 * Record
-2014Äê7ÔÂ24ÈÕ done
+2014/7/24 done
