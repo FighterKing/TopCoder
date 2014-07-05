@@ -1,8 +1,8 @@
 * TODO
 ** Chen
-1. SRM590
-2. SRM584
-3. SRM583
+1. SRM584
+2. SRM583
+3. SRM582
 ** Lv
 * Plan
 ** 1 per week at least
