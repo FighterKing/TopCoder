@@ -34,7 +34,7 @@ public:
 		vector<int> ret;
 		for (auto plan : dietPlans) {
 			iota(fi.begin(), fi.end(), 0);
-			stable_sort(fi.begin(), fi.end(), 
+			int min = *std::min_element(fi.begin(), fi.end(), 
 				[&protein, &carbs, &fat, &calories, &plan] (int a, int b) -> bool {
 					for (auto p : plan) {
 						switch(p) {
@@ -58,7 +58,7 @@ public:
 					}
 					return a < b;
 				});
-			ret.push_back(fi[0]);
+			ret.push_back(min);
 		}
 		return ret;
 	}
