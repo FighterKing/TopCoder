@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cctype>
+#include <unordered_map>
 
 using namespace std;
 
@@ -30,31 +31,22 @@ public:
 		for (int i = 0; i < numOfFood; i++)
 			calories[i] = fat[i] * 9 + (protein[i] + carbs[i]) * 5;
 
+		unordered_map<char, vector<int> > aspects {
+			{'p', protein}, {'P', protein},
+			{'c', carbs}, {'C', carbs},
+			{'f', fat}, {'F', fat},
+			{'t', calories}, {'T', calories},
+		};
+
 		vector<int> fi(numOfFood);
+		iota(fi.begin(), fi.end(), 0);
 		vector<int> ret;
 		for (auto plan : dietPlans) {
-			iota(fi.begin(), fi.end(), 0);
 			int min = *std::min_element(fi.begin(), fi.end(), 
-				[&protein, &carbs, &fat, &calories, &plan] (int a, int b) -> bool {
+				[&aspects, &plan] (int a, int b) -> bool {
 					for (auto p : plan) {
-						switch(p) {
-						case 'p': case 'P':
-							if (protein[a] != protein[b])
-								return islower(p) ? protein[a] < protein[b] : protein[a] > protein[b];
-							break;
-						case 'c': case 'C':
-							if (carbs[a] != carbs[b])
-								return islower(p) ? carbs[a] < carbs[b] : carbs[a] > carbs[b];
-							break;
-						case 'f': case 'F':
-							if (fat[a] != fat[b])
-								return islower(p) ? fat[a] < fat[b] : fat[a] > fat[b];
-							break;
-						case 't': case 'T':
-							if (calories[a] != calories[b])
-								return islower(p) ? calories[a] < calories[b] : calories[a] > calories[b];
-							break;
-						}
+						if (aspects[p][a] != aspects[p][b])
+							return islower(p) ? aspects[p][a] < aspects[p][b] : aspects[p][a] > aspects[p][b];
 					}
 					return a < b;
 				});
