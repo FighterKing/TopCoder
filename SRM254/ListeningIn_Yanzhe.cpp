@@ -24,25 +24,26 @@ using namespace std;
 class ListeningIn {
 public:
   string probableMatch(string typed, string phrase) {
-  	vector<int> splits {-1};
-  	int i = 0;
-  	for (auto c : typed) {
-  		while (i < phrase.size()) {
-  			if (phrase[i] == c) {
-  				splits.push_back(i);
-  				i++;
-  				break;
-  			}
-  			else
-  				i++;
-  		}
-  		if (i == phrase.size() && phrase[i-1] != c)
-  			return "UNMATCHED";
-  	}
-  	string ret = "";
-  	for (int i = 0; i + 1 < splits.size(); i++)
-  		ret += phrase.substr(splits[i] + 1, splits[i+1] - splits[i] - 1);
-  	return ret + phrase.substr(splits[splits.size() - 1] + 1);
+    int i = 0, j = 0;
+    string ret = "";
+  	while (i < typed.size()) {
+      if (j == phrase.size())
+        return "UNMATCHED";
+
+      while (phrase[j] != typed[i]) {
+        ret.push_back(phrase[j]);
+        j++;
+        if (j == phrase.size())
+          return "UNMATCHED";
+      }
+
+      i++; j++;
+    }
+    
+    for (; j < phrase.size(); j++)
+      ret.push_back(phrase[j]);
+
+    return ret;
   }
 };
 
@@ -114,6 +115,15 @@ int main() {
     // ----- test 2 -----
     p0 = "back  to base";
     p1 = "back to base";
+    p2 = "UNMATCHED";
+    all_right = KawigiEdit_RunTest(2, p0, p1, true, p2) && all_right;
+    // ------------------
+  }
+
+  {
+    // ----- test 3 -----
+    p0 = "bbbbb";
+    p1 = "abababab";
     p2 = "UNMATCHED";
     all_right = KawigiEdit_RunTest(2, p0, p1, true, p2) && all_right;
     // ------------------
